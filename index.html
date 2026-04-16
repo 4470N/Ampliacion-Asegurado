@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentación del Siniestro | Iezzi & Varone</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:    #1a3a6b;
+      --celeste: #4db8d4;
+      --rojo:    #e63329;
+      --verde:   #27ae60;
+      --naranja: #e67e22;
+      --bg:      #f0f3f8;
+      --card:    #ffffff;
+      --text:    #1e2a3a;
+      --muted:   #6b7a90;
+      --border:  #d1d9e6;
+      --input-bg:#f8fafc;
+      --shadow:  0 2px 16px rgba(26,58,107,0.09);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding-bottom: 60px;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: var(--navy);
+      border-bottom: 4px solid var(--celeste);
+      padding: 20px 24px;
+      text-align: center;
+    }
+    .header-sub {
+      color: var(--celeste);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 6px;
+      font-weight: 600;
+    }
+    .header-brand {
+      color: white;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, #1e4d8c 100%);
+      color: white;
+      text-align: center;
+      padding: 28px 20px 24px;
+    }
+    .hero h1 { font-size: 22px; font-weight: 700; letter-spacing: 0.5px; }
+    .hero p  { font-size: 13px; color: #a8c4e8; margin-top: 6px; }
+
+    /* ── BADGE SEGURADORA ── */
+    .seg-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: white;
+      letter-spacing: 0.5px;
+      margin-top: 10px;
+    }
+
+    /* ── CONTAINER ── */
+    .container { max-width: 680px; margin: 0 auto; padding: 24px 16px; }
+
+    /* ── SECTION CARD ── */
+    .section-card {
+      background: var(--card);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      background: linear-gradient(90deg, var(--navy), #1e4d8c);
+      color: white;
+      padding: 13px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-body { padding: 20px; }
+
+    /* ── INFO BOX ── */
+    .info-box {
+      background: #f0f8fb;
+      border-left: 3px solid var(--celeste);
+      border-radius: 0 8px 8px 0;
+      padding: 10px 14px;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+    .info-box strong { color: var(--navy); }
+
+    /* ── UPLOAD GRID ── */
+    .upload-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .upload-item {}
+    .upload-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+    .upload-label .req { color: var(--rojo); margin-left: 2px; }
+    .upload-label .opt { color: var(--muted); font-weight: 400; font-size: 10px; text-transform: none; letter-spacing: 0; }
+
+    .file-drop {
+      border: 1.5px dashed var(--border);
+      border-radius: 10px;
+      padding: 18px 10px;
+      text-align: center;
+      background: var(--input-bg);
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+      min-height: 90px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .file-drop:hover { border-color: var(--celeste); background: #f0f8fb; }
+    .file-drop input[type=file] {
+      position: absolute; inset: 0;
+      opacity: 0; cursor: pointer;
+      width: 100%; height: 100%;
+    }
+    .file-drop .icon { font-size: 26px; display: block; }
+    .file-drop .file-label { font-size: 11px; color: var(--muted); margin-top: 5px; line-height: 1.3; }
+    .file-drop.has-file { border-color: var(--verde); background: #f0fdf4; border-style: solid; }
+    .file-drop.has-file .icon { opacity: 0.7; }
+    .file-drop.has-file .file-label { color: var(--verde); font-weight: 600; }
+    .file-drop.error-file { border-color: var(--rojo); background: #fff5f5; }
+
+    /* ── DIVIDER ── */
+    .divider { height: 1px; background: var(--border); margin: 16px 0; }
+
+    /* ── PROGRESS BAR ── */
+    .progress-bar-wrap {
+      background: var(--border);
+      border-radius: 8px;
+      height: 8px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--celeste), var(--verde));
+      border-radius: 8px;
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+    .progress-label {
+      font-size: 11px;
+      color: var(--muted);
+      text-align: right;
+      margin-bottom: 16px;
+    }
+    .progress-label span { font-weight: 700; color: var(--navy); }
+
+    /* ── BUTTON ── */
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, #1e7a4a, var(--verde));
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.2s;
+    }
+    .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(39,174,96,0.3); }
+    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    /* ── FIELD ERROR ── */
+    .field-error-msg {
+      font-size: 11px;
+      color: var(--rojo);
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    /* ── SCREENS ── */
+    #screenOk, #screenError { display: none; }
+    .screen-card {
+      background: white; border-radius: 16px; box-shadow: var(--shadow);
+      padding: 40px 30px; text-align: center; margin-top: 24px;
+    }
+    .screen-icon { font-size: 56px; margin-bottom: 16px; }
+    .screen-card h2 { font-size: 20px; color: var(--navy); margin-bottom: 8px; }
+    .screen-card p  { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 480px) {
+      .header { padding: 12px 14px; }
+      .header-brand { font-size: 18px; }
+      .header-sub { font-size: 10px; }
+      .hero { padding: 16px 14px 12px; }
+      .hero h1 { font-size: 17px; }
+      .hero p  { font-size: 12px; }
+      .container { padding: 12px 10px; }
+      .section-card { border-radius: 10px; margin-bottom: 10px; }
+      .section-title { font-size: 12px; padding: 10px 14px; }
+      .section-body { padding: 14px; }
+      .upload-grid { grid-template-columns: 1fr; gap: 10px; }
+      .file-drop { min-height: 75px; padding: 14px 10px; }
+      .btn-submit { font-size: 14px; padding: 13px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<div class="header">
+  <div class="header-brand">Iezzi &amp; Varone</div>
+  <div class="header-sub">Estudio Jurídico — Gestión de Siniestros</div>
+</div>
+
+<!-- ── HERO ── -->
+<div class="hero" id="heroSection">
+  <h1>Documentación del Siniestro</h1>
+  <p>Adjunte las fotos e imágenes solicitadas para que podamos gestionar su reclamo</p>
+  <div class="seg-badge" id="badgeSeguradora">Cargando...</div>
+</div>
+
+<!-- ── FORMULARIO ── -->
+<div class="container" id="formContainer">
+
+  <!-- INFO -->
+  <div class="section-card">
+    <div class="section-body">
+      <div class="info-box">
+        <strong>¿Cómo completar este formulario?</strong><br>
+        Adjunte cada foto o documento en el casillero correspondiente. Puede subir archivos JPG, PNG o PDF.
+        Los campos marcados con <span style="color:var(--rojo)">*</span> son obligatorios.
+      </div>
+
+      <!-- PROGRESO -->
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-label"><span id="progressText">0</span> de 9 archivos adjuntados</div>
+    </div>
+  </div>
+
+  <!-- IDENTIFICACIÓN -->
+  <div class="section-card">
+    <div class="section-title">
+      <span>&#128100;</span> Documento de identidad
+    </div>
+    <div class="section-body">
+      <div class="upload-grid">
+
+        <div class="upload-item">
+          <span class="upload-label">DNI frente <span class="req">*</span></span>
+          <div class="file-drop" id="drop-dni_frente">
+            <span class="icon">&#128100;</span>
+            <div class="file-label">Toque para subir</div>
+            <input type="file" id="dni_frente" accept="image/*,application/pdf" onchange="onFile(this,'drop-dni_frente')">
+          </div>
+          <div class="field-error-msg" id="err-dni_frente" style="display:none">&#9888; Requerido</div>
+        </div>
+
+        <div class="upload-item">
+          <span class="upload-label">DNI dorso <span class="req">*</span></span>
+          <div class="file-drop" id="drop-dni_dorso">
+            <span class="icon">&#128100;</span>
+            <div class="file-label">Toque para subir</div>
+            <input type="file" id="dni_dorso" accept="image/*,application/pdf" onchange="onFile(this,'drop-dni_dorso')">
+          </div>
+          <div class="field-error-msg" id="err-dni_dorso" style="display:none">&#9888; Requerido</div>
+        </div>
+
+        <div class="upload-item">
+          <span class="upload-label">Licencia de conducir <span class="req">*</span></span>
+          <div class="file-drop" id="drop-licencia">
+            <span class="icon">&#128663;</span>
+            <div class="file-label">Toque para subir</div>
+            <input type="file" id="licencia" accept="image/*,application/pdf" onchange="onFile(this,'drop-licencia')">
+          </div>
+          <div class="field-error-msg" id="err-licencia" style="display:none">&#9888; Requerido</div>
+        </div>
+
+        <div class="upload-item">
+          <span class="upload-label">Cédula verde <span class="req">*</span></span>
+          <div class="file-drop" id="drop-cedula">
+            <span class="icon">&#128196;</span>
+            <div class="file-label">Toque para subir</div>
+            <input type="file" id="cedula" accept="image/*,application/pdf" onchange="onFile(this,'drop-cedula')">
+          </div>
+          <div class="field-error-msg" id="err-cedula" style="display:none">&#9888; Requerido</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FOTOS DEL AUTO -->
+  <div class="section-card">
+    <div class="section-title">
+      <span>&#128663;</span> Fotos del vehículo
+    </div>
+    <div class="section-body">
+      <div class="info-box">
+        <strong>Importante:</strong> tome las fotos del auto desde afuera, mostrando claramente los daños si los hay.
+        Incluya todas las vistas indicadas.
+      </div>
+      <div class="upload-grid">
+
+        <div class="upload-item">
+          <span class="upload-label">Foto adelante <span class="req">*</span></span>
+          <div class="file-drop" id="drop-foto_auto_adelante">
+            <span class="icon">&#11014;&#65039;</span>
+            <div class="file-label">Frente del auto</div>
+            <input type="file" id="foto_auto_adelante" accept="image/*" onchange="onFile(this,'drop-foto_auto_adelante')">
+          </div>
+          <div class="field-error-msg" id="err-foto_auto_adelante" style="display:none">&#9888; Requerido</div>
+        </div>
+
+        <div class="upload-item">
+          <span class="upload-label">Foto atrás <span class="req">*</span></span>
+          <div class="file-drop" id="drop-foto_auto_atras">
+            <span class="icon">&#11015;&#65039;</span>
+            <div class="file-label">Parte trasera</div>
+            <input type="file" id="foto_auto_atras" accept="image/*" onchange="onFile(this,'drop-foto_auto_atras')">
+          </div>
+          <div class="field-error-msg" id="err-foto_auto_atras" style="display:none">&#9888; Requerido</div>
+        </div>
+
+        <div class="upload-item">
+          <span class="upload-label">Lado izquierdo <span class="req">*</span></span>
+          <div class="file-drop" id="drop-foto_auto_izquierdo">
+            <span class="icon">&#11013;&#65039;</span>
+            <div class="file-label">Lateral izquierdo</div>
+            <input type="file" id="foto_auto_izquierdo" accept="image/*" onchange="onFile(this,'drop-foto_auto_izquierdo')">
+          </div>
+          <div class="field-error-msg" id="err-foto_auto_izquierdo" style="display:none">&#9888; Requerido</div>
+        </div>
+
+        <div class="upload-item">
+          <span class="upload-label">Lado derecho <span class="req">*</span></span>
+          <div class="file-drop" id="drop-foto_auto_derecho">
+            <span class="icon">&#10145;&#65039;</span>
+            <div class="file-label">Lateral derecho</div>
+            <input type="file" id="foto_auto_derecho" accept="image/*" onchange="onFile(this,'drop-foto_auto_derecho')">
+          </div>
+          <div class="field-error-msg" id="err-foto_auto_derecho" style="display:none">&#9888; Requerido</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- PÓLIZA -->
+  <div class="section-card">
+    <div class="section-title">
+      <span>&#128221;</span> Seguro del vehículo
+    </div>
+    <div class="section-body">
+      <div class="upload-grid">
+
+        <div class="upload-item" style="grid-column: 1 / -1;">
+          <span class="upload-label">Póliza / comprobante de seguro <span class="req">*</span></span>
+          <div class="file-drop" id="drop-seguro" style="min-height:75px; flex-direction:row; gap:12px;">
+            <span class="icon">&#128221;</span>
+            <div class="file-label" style="text-align:left;">Toque para adjuntar la póliza o comprobante de cobertura</div>
+            <input type="file" id="seguro" accept="image/*,application/pdf" onchange="onFile(this,'drop-seguro')">
+          </div>
+          <div class="field-error-msg" id="err-seguro" style="display:none">&#9888; Requerido</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ENVIAR -->
+  <div class="section-card">
+    <div class="section-body">
+      <button class="btn-submit" id="btnSubmit" onclick="enviarFormulario()">
+        &#9989; Enviar documentación
+      </button>
+    </div>
+  </div>
+
+  <!-- SCREEN OK -->
+  <div id="screenOk">
+    <div class="screen-card">
+      <div class="screen-icon">&#9989;</div>
+      <h2>Documentación enviada</h2>
+      <p>Recibimos toda la documentación correctamente.<br>
+        El estudio Iezzi &amp; Varone revisará los archivos y se pondrá en contacto con usted a la brevedad.</p>
+    </div>
+  </div>
+
+  <!-- SCREEN ERROR -->
+  <div id="screenError">
+    <div class="screen-card">
+      <div class="screen-icon">&#10060;</div>
+      <h2>Error al enviar</h2>
+      <p>Hubo un problema al enviar la documentación. Por favor intente nuevamente.<br>
+        Si el problema persiste, comuníquese con el estudio al <strong>+54 9 11 5158-1815</strong>.</p>
+      <button class="btn-submit" style="margin-top:20px;max-width:260px;margin-left:auto;margin-right:auto;" onclick="document.getElementById('screenError').style.display='none'">
+        Reintentar
+      </button>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<script>
+  const WEBHOOK_URL = "https://entire-backup-occasionally-affects.trycloudflare.com/webhook/siniestro-asegurado"; // ← actualizar con path definitivo
+
+  // ── Parámetros de la URL ──
+  const _params       = new URLSearchParams(window.location.search);
+  const NRO_SINIESTRO = _params.get('caso') || '';
+  const SEGURADORA    = (_params.get('seg')  || '').toLowerCase(); // 'provincia' | 'sancor'
+
+  // ── Badge seguradora ──
+  const _badgeEl = document.getElementById('badgeSeguradora');
+  if (SEGURADORA === 'provincia') {
+    _badgeEl.textContent = 'Provincia Seguros';
+  } else if (SEGURADORA === 'sancor') {
+    _badgeEl.textContent = 'Sancor Seguros';
+  } else {
+    _badgeEl.textContent = 'Siniestro';
+  }
+
+  // ── Lista de archivos obligatorios ──
+  const CAMPOS = [
+    'dni_frente',
+    'dni_dorso',
+    'licencia',
+    'cedula',
+    'foto_auto_adelante',
+    'foto_auto_atras',
+    'foto_auto_izquierdo',
+    'foto_auto_derecho',
+    'seguro',
+  ];
+
+  // ── Actualizar estado visual al seleccionar un archivo ──
+  function onFile(input, dropId) {
+    const drop = document.getElementById(dropId);
+    const errEl = document.getElementById('err-' + input.id);
+    if (input.files && input.files[0]) {
+      const nombre = input.files[0].name;
+      const corto  = nombre.length > 22 ? nombre.substring(0, 20) + '...' : nombre;
+      drop.classList.add('has-file');
+      drop.classList.remove('error-file');
+      drop.querySelector('.file-label').textContent = corto;
+      if (errEl) errEl.style.display = 'none';
+    } else {
+      drop.classList.remove('has-file');
+      drop.querySelector('.file-label').textContent = 'Toque para subir';
+    }
+    actualizarProgreso();
+  }
+
+  // ── Barra de progreso ──
+  function actualizarProgreso() {
+    const adjuntados = CAMPOS.filter(id => {
+      const el = document.getElementById(id);
+      return el && el.files && el.files[0];
+    }).length;
+    const pct = Math.round((adjuntados / CAMPOS.length) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = adjuntados;
+  }
+
+  // ── Convertir archivo a base64 ──
+  function fileToBase64(file) {
+    if (!file) return Promise.resolve(null);
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload  = () => {
+        // Remover el prefijo "data:...;base64," y devolver solo el base64
+        const b64 = reader.result.split(',')[1];
+        resolve(b64);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // ── Nombre del archivo para enviar al webhook ──
+  function fileName(id) {
+    const el = document.getElementById(id);
+    return el && el.files && el.files[0] ? el.files[0].name : null;
+  }
+
+  // ── Validar todos los campos ──
+  function validar() {
+    let ok = true;
+    for (const id of CAMPOS) {
+      const el    = document.getElementById(id);
+      const drop  = document.getElementById('drop-' + id);
+      const errEl = document.getElementById('err-' + id);
+      if (!el || !el.files || !el.files[0]) {
+        ok = false;
+        if (drop)  drop.classList.add('error-file');
+        if (errEl) errEl.style.display = 'flex';
+      }
+    }
+    if (!ok) {
+      // Scroll al primer error
+      const primerError = document.querySelector('.error-file');
+      if (primerError) primerError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    return ok;
+  }
+
+  // ── Envío ──
+  async function enviarFormulario() {
+    if (!validar()) return;
+
+    const btn = document.getElementById('btnSubmit');
+    btn.disabled    = true;
+    btn.textContent = '⏳ Enviando documentación...';
+
+    try {
+      // Convertir todos los archivos a base64 en paralelo
+      const b64s = await Promise.all(CAMPOS.map(id => {
+        const el = document.getElementById(id);
+        return fileToBase64(el.files[0]);
+      }));
+
+      const payload = {
+        nro_siniestro:       NRO_SINIESTRO,
+        seguradora:          SEGURADORA,
+        // Archivos base64
+        dni_frente:          b64s[0],
+        dni_frente_nombre:   fileName('dni_frente'),
+        dni_dorso:           b64s[1],
+        dni_dorso_nombre:    fileName('dni_dorso'),
+        licencia:            b64s[2],
+        licencia_nombre:     fileName('licencia'),
+        cedula:              b64s[3],
+        cedula_nombre:       fileName('cedula'),
+        foto_auto_adelante:  b64s[4],
+        foto_auto_adelante_nombre: fileName('foto_auto_adelante'),
+        foto_auto_atras:     b64s[5],
+        foto_auto_atras_nombre:    fileName('foto_auto_atras'),
+        foto_auto_izquierdo: b64s[6],
+        foto_auto_izquierdo_nombre: fileName('foto_auto_izquierdo'),
+        foto_auto_derecho:   b64s[7],
+        foto_auto_derecho_nombre:   fileName('foto_auto_derecho'),
+        seguro:              b64s[8],
+        seguro_nombre:       fileName('seguro'),
+      };
+
+      const controller = new AbortController();
+      const timeout    = setTimeout(() => controller.abort(), 30000);
+
+      const res = await fetch(WEBHOOK_URL, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(payload),
+        signal:  controller.signal,
+      });
+      clearTimeout(timeout);
+
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+
+      // Ocultar formulario, mostrar confirmación
+      document.getElementById('formContainer').style.display = 'none';
+      document.getElementById('heroSection').style.display   = 'none';
+      document.getElementById('screenOk').style.display      = 'block';
+      document.getElementById('screenOk').style.padding      = '24px 16px';
+      document.getElementById('screenOk').style.maxWidth     = '680px';
+      document.getElementById('screenOk').style.margin       = '0 auto';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    } catch (err) {
+      document.getElementById('screenError').style.display = 'block';
+      btn.disabled    = false;
+      btn.textContent = '✅ Enviar documentación';
+    }
+  }
+
+  // ── Init ──
+  actualizarProgreso();
+</script>
+
+</body>
+</html>
