@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Documentación del Siniestro | Iezzi & Varone</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
@@ -237,7 +237,20 @@
       .section-body { padding: 14px; }
       .upload-grid { grid-template-columns: 1fr; gap: 10px; }
       .file-drop { min-height: 75px; padding: 14px 10px; }
-      .btn-submit { font-size: 14px; padding: 13px; }
+      .btn-submit { font-size: 14px; padding: 13px; min-height: 44px; }
+      input[type=text], input[type=date], input[type=time], input[type=email],
+      input[type=tel], input[type=number], select, textarea { font-size: 16px !important; }
+    }
+
+    /* ── iOS & Mobile Fixes ── */
+    html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+    * { -webkit-tap-highlight-color: transparent; }
+    button, .btn-submit { touch-action: manipulation; }
+    body { padding-bottom: env(safe-area-inset-bottom, 0px); }
+    select { background-color: #f8fafc; }
+    @media (max-width: 480px) {
+      .screen-card h2 { font-size: 17px; }
+      .screen-card p  { font-size: 13px; }
     }
   </style>
 </head>
@@ -272,7 +285,7 @@
       <div class="progress-bar-wrap">
         <div class="progress-bar-fill" id="progressFill"></div>
       </div>
-      <div class="progress-label"><span id="progressText">0</span> de 9 archivos adjuntados</div>
+      <div class="progress-label"><span id="progressText">0</span> de 11 archivos adjuntados</div>
     </div>
   </div>
 
@@ -305,23 +318,43 @@
         </div>
 
         <div class="upload-item">
-          <span class="upload-label">Licencia de conducir <span class="req">*</span></span>
-          <div class="file-drop" id="drop-licencia">
+          <span class="upload-label">Licencia frente <span class="req">*</span></span>
+          <div class="file-drop" id="drop-licencia_frente">
             <span class="icon">&#128663;</span>
             <div class="file-label">Toque para subir</div>
-            <input type="file" id="licencia" accept="image/*,application/pdf" onchange="onFile(this,'drop-licencia')">
+            <input type="file" id="licencia_frente" accept="image/*,application/pdf" onchange="onFile(this,'drop-licencia_frente')">
           </div>
-          <div class="field-error-msg" id="err-licencia" style="display:none">&#9888; Requerido</div>
+          <div class="field-error-msg" id="err-licencia_frente" style="display:none">&#9888; Requerido</div>
         </div>
 
         <div class="upload-item">
-          <span class="upload-label">Cédula verde <span class="req">*</span></span>
-          <div class="file-drop" id="drop-cedula">
+          <span class="upload-label">Licencia dorso <span class="req">*</span></span>
+          <div class="file-drop" id="drop-licencia_dorso">
+            <span class="icon">&#128663;</span>
+            <div class="file-label">Toque para subir</div>
+            <input type="file" id="licencia_dorso" accept="image/*,application/pdf" onchange="onFile(this,'drop-licencia_dorso')">
+          </div>
+          <div class="field-error-msg" id="err-licencia_dorso" style="display:none">&#9888; Requerido</div>
+        </div>
+
+        <div class="upload-item">
+          <span class="upload-label">Cédula frente <span class="req">*</span></span>
+          <div class="file-drop" id="drop-cedula_frente">
             <span class="icon">&#128196;</span>
             <div class="file-label">Toque para subir</div>
-            <input type="file" id="cedula" accept="image/*,application/pdf" onchange="onFile(this,'drop-cedula')">
+            <input type="file" id="cedula_frente" accept="image/*,application/pdf" onchange="onFile(this,'drop-cedula_frente')">
           </div>
-          <div class="field-error-msg" id="err-cedula" style="display:none">&#9888; Requerido</div>
+          <div class="field-error-msg" id="err-cedula_frente" style="display:none">&#9888; Requerido</div>
+        </div>
+
+        <div class="upload-item">
+          <span class="upload-label">Cédula dorso <span class="req">*</span></span>
+          <div class="file-drop" id="drop-cedula_dorso">
+            <span class="icon">&#128196;</span>
+            <div class="file-label">Toque para subir</div>
+            <input type="file" id="cedula_dorso" accept="image/*,application/pdf" onchange="onFile(this,'drop-cedula_dorso')">
+          </div>
+          <div class="field-error-msg" id="err-cedula_dorso" style="display:none">&#9888; Requerido</div>
         </div>
 
       </div>
@@ -462,8 +495,10 @@
   const CAMPOS = [
     'dni_frente',
     'dni_dorso',
-    'licencia',
-    'cedula',
+    'licencia_frente',
+    'licencia_dorso',
+    'cedula_frente',
+    'cedula_dorso',
     'foto_auto_adelante',
     'foto_auto_atras',
     'foto_auto_izquierdo',
@@ -565,19 +600,23 @@
         dni_frente_nombre:   fileName('dni_frente'),
         dni_dorso:           b64s[1],
         dni_dorso_nombre:    fileName('dni_dorso'),
-        licencia:            b64s[2],
-        licencia_nombre:     fileName('licencia'),
-        cedula:              b64s[3],
-        cedula_nombre:       fileName('cedula'),
-        foto_auto_adelante:  b64s[4],
+        licencia_frente:     b64s[2],
+        licencia_frente_nombre: fileName('licencia_frente'),
+        licencia_dorso:      b64s[3],
+        licencia_dorso_nombre: fileName('licencia_dorso'),
+        cedula_frente:       b64s[4],
+        cedula_frente_nombre: fileName('cedula_frente'),
+        cedula_dorso:        b64s[5],
+        cedula_dorso_nombre: fileName('cedula_dorso'),
+        foto_auto_adelante:  b64s[6],
         foto_auto_adelante_nombre: fileName('foto_auto_adelante'),
-        foto_auto_atras:     b64s[5],
+        foto_auto_atras:     b64s[7],
         foto_auto_atras_nombre:    fileName('foto_auto_atras'),
-        foto_auto_izquierdo: b64s[6],
+        foto_auto_izquierdo: b64s[8],
         foto_auto_izquierdo_nombre: fileName('foto_auto_izquierdo'),
-        foto_auto_derecho:   b64s[7],
+        foto_auto_derecho:   b64s[9],
         foto_auto_derecho_nombre:   fileName('foto_auto_derecho'),
-        seguro:              b64s[8],
+        seguro:              b64s[10],
         seguro_nombre:       fileName('seguro'),
       };
 
