@@ -242,6 +242,32 @@
       input[type=tel], input[type=number], select, textarea { font-size: 16px !important; }
     }
 
+    /* ── TERCEROS TRANSPORTADOS ── */
+    .field { margin-bottom: 15px; }
+    .field:last-child { margin-bottom: 0; }
+    .field label { display: block; font-size: 11px; font-weight: 700; color: var(--navy); margin-bottom: 6px; letter-spacing: 0.3px; text-transform: uppercase; }
+    .field input[type=text], .field input[type=tel] {
+      width: 100%; padding: 10px 12px; border: 1.5px solid var(--border);
+      border-radius: 8px; font-size: 14px; font-family: 'DM Sans', sans-serif;
+      background: var(--input-bg); color: var(--text); outline: none;
+      transition: border-color 0.2s;
+    }
+    .field input[type=text]:focus, .field input[type=tel]:focus { border-color: var(--celeste); }
+    .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .toggle-group { display: flex; gap: 10px; }
+    .toggle-btn {
+      flex: 1; padding: 9px; border: 1.5px solid var(--border);
+      border-radius: 8px; background: white; cursor: pointer;
+      font-size: 14px; font-weight: 500; color: var(--muted);
+      transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+    }
+    .toggle-btn:hover { border-color: var(--celeste); color: var(--celeste); }
+    .toggle-btn.active-si { background: #f0fdf4; border-color: var(--verde); color: var(--verde); }
+    .toggle-btn.active-no { background: #fff5f5; border-color: #e0b0b0; color: #c0392b; }
+    .conditional { overflow: hidden; transition: max-height 0.45s ease, opacity 0.3s; }
+    .conditional.hidden { max-height: 0; opacity: 0; pointer-events: none; }
+    .conditional.visible { max-height: 1200px; opacity: 1; }
+
     /* ── iOS & Mobile Fixes ── */
     html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
     * { -webkit-tap-highlight-color: transparent; }
@@ -448,24 +474,42 @@
     </div>
   </div>
 
-  <!-- PÓLIZA -->
+  <!-- TERCEROS TRANSPORTADOS -->
   <div class="section-card">
     <div class="section-title">
-      <span>&#128221;</span> Seguro del vehículo
+      <span>🚗</span> Terceros Transportados
     </div>
     <div class="section-body">
-      <div class="upload-grid">
-
-        <div class="upload-item" style="grid-column: 1 / -1;">
-          <span class="upload-label">Póliza / comprobante de seguro <span class="req">*</span></span>
-          <div class="file-drop" id="drop-seguro" style="min-height:75px; flex-direction:row; gap:12px;">
-            <span class="icon">&#128221;</span>
-            <div class="file-label" style="text-align:left;">Toque para adjuntar la póliza o comprobante de cobertura</div>
-            <input type="file" id="seguro" accept="image/*,application/pdf" onchange="onFile(this,'drop-seguro')">
-          </div>
-          <div class="field-error-msg" id="err-seguro" style="display:none">&#9888; Requerido</div>
+      <div class="field">
+        <label>¿Hubo terceros transportados?</label>
+        <div class="toggle-group">
+          <button type="button" class="toggle-btn" id="tert_si" onclick="toggleTerceroT('si')">✔ Sí</button>
+          <button type="button" class="toggle-btn" id="tert_no" onclick="toggleTerceroT('no')">✖ No</button>
         </div>
-
+        <input type="hidden" id="hubo_tercero" value="">
+      </div>
+      <div class="conditional hidden" id="cond_tercero_t">
+        <div class="divider"></div>
+        <div class="row-2">
+          <div class="field">
+            <label>Nombre y Apellido</label>
+            <input type="text" id="tercero_t_nombre" placeholder="Apellido, Nombre" maxlength="30">
+          </div>
+          <div class="field">
+            <label>DNI</label>
+            <input type="text" id="tercero_t_dni" placeholder="Sin puntos" maxlength="8" inputmode="numeric">
+          </div>
+        </div>
+        <div class="row-2">
+          <div class="field">
+            <label>Teléfono</label>
+            <input type="tel" id="tercero_t_tel" placeholder="Número de contacto" maxlength="10">
+          </div>
+          <div class="field">
+            <label>Domicilio</label>
+            <input type="text" id="tercero_t_domicilio" placeholder="Calle, número, localidad" maxlength="40">
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -534,7 +578,6 @@
     'foto_auto_atras',
     'foto_auto_izquierdo',
     'foto_auto_derecho',
-    'seguro',
   ];
 
   // ── Actualizar estado visual al seleccionar un archivo ──
@@ -653,8 +696,11 @@
         foto_auto_izquierdo_nombre: fileName('foto_auto_izquierdo'),
         foto_auto_derecho:   b64s[9],
         foto_auto_derecho_nombre:   fileName('foto_auto_derecho'),
-        seguro:                      b64s[10],
-        seguro_nombre:               fileName('seguro'),
+        hubo_tercero:                document.getElementById('hubo_tercero')?.value || '',
+        tercero_t_nombre:            document.getElementById('tercero_t_nombre')?.value || '',
+        tercero_t_dni:               document.getElementById('tercero_t_dni')?.value || '',
+        tercero_t_tel:               document.getElementById('tercero_t_tel')?.value || '',
+        tercero_t_domicilio:         document.getElementById('tercero_t_domicilio')?.value || '',
         dni_conductor_frente:        dniCondFrenteB64,
         dni_conductor_frente_nombre: fileName('dni_conductor_frente'),
         dni_conductor_dorso:         dniCondDorsoB64,
@@ -688,6 +734,18 @@
       btn.disabled    = false;
       btn.textContent = '✅ Enviar documentación';
     }
+  }
+
+  // ── Toggle Si/No: Tercero Transportado ──
+  function toggleTerceroT(val) {
+    document.getElementById('hubo_tercero').value = val;
+    const si   = document.getElementById('tert_si');
+    const no   = document.getElementById('tert_no');
+    const cond = document.getElementById('cond_tercero_t');
+    si.classList.toggle('active-si', val === 'si');
+    no.classList.toggle('active-no', val === 'no');
+    cond.classList.toggle('hidden',  val !== 'si');
+    cond.classList.toggle('visible', val === 'si');
   }
 
   // ── Init ──
