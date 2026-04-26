@@ -361,6 +361,37 @@
     </div>
   </div>
 
+  <!-- DNI DEL CONDUCTOR (OPCIONAL) -->
+  <div class="section-card">
+    <div class="section-title">
+      <span>&#128100;</span> DNI del conductor
+    </div>
+    <div class="section-body">
+      <div class="info-box">En caso de que el titular no sea quien conducía, adjuntar DNI del conductor.</div>
+      <div class="upload-grid">
+
+        <div class="upload-item">
+          <span class="upload-label">DNI conductor frente</span>
+          <div class="file-drop" id="drop-dni_conductor_frente">
+            <span class="icon">&#128100;</span>
+            <div class="file-label">Toque para subir</div>
+            <input type="file" id="dni_conductor_frente" accept="image/*,application/pdf" onchange="onFile(this,'drop-dni_conductor_frente')">
+          </div>
+        </div>
+
+        <div class="upload-item">
+          <span class="upload-label">DNI conductor dorso</span>
+          <div class="file-drop" id="drop-dni_conductor_dorso">
+            <span class="icon">&#128100;</span>
+            <div class="file-label">Toque para subir</div>
+            <input type="file" id="dni_conductor_dorso" accept="image/*,application/pdf" onchange="onFile(this,'drop-dni_conductor_dorso')">
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   <!-- FOTOS DEL AUTO -->
   <div class="section-card">
     <div class="section-title">
@@ -592,6 +623,12 @@
         return fileToBase64(el.files[0]);
       }));
 
+      // Campos opcionales
+      const [dniCondFrenteB64, dniCondDorsoB64] = await Promise.all([
+        fileToBase64(document.getElementById('dni_conductor_frente')?.files[0]),
+        fileToBase64(document.getElementById('dni_conductor_dorso')?.files[0]),
+      ]);
+
       const payload = {
         nro_siniestro:       NRO_SINIESTRO,
         seguradora:          SEGURADORA,
@@ -616,8 +653,12 @@
         foto_auto_izquierdo_nombre: fileName('foto_auto_izquierdo'),
         foto_auto_derecho:   b64s[9],
         foto_auto_derecho_nombre:   fileName('foto_auto_derecho'),
-        seguro:              b64s[10],
-        seguro_nombre:       fileName('seguro'),
+        seguro:                      b64s[10],
+        seguro_nombre:               fileName('seguro'),
+        dni_conductor_frente:        dniCondFrenteB64,
+        dni_conductor_frente_nombre: fileName('dni_conductor_frente'),
+        dni_conductor_dorso:         dniCondDorsoB64,
+        dni_conductor_dorso_nombre:  fileName('dni_conductor_dorso'),
       };
 
       const controller = new AbortController();
