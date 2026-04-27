@@ -558,10 +558,8 @@
 
   // ── Badge seguradora ──
   const _badgeEl = document.getElementById('badgeSeguradora');
-  if (SEGURADORA === 'provincia') {
-    _badgeEl.textContent = 'Provincia Seguros';
-  } else if (SEGURADORA === 'sancor') {
-    _badgeEl.textContent = 'Sancor Seguros';
+  if (SEGURADORA === 'sancor') {
+    _badgeEl.textContent = 'Sancor / Provincia Seguros';
   } else {
     _badgeEl.textContent = 'Siniestro';
   }
