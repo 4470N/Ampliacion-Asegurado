@@ -655,7 +655,7 @@
 
     const btn = document.getElementById('btnSubmit');
     btn.disabled    = true;
-    btn.textContent = '⏳ Enviando documentación...';
+    btn.textContent = '⏳ Enviando documentación... (puede tardar unos segundos)';
 
     try {
       // Convertir todos los archivos a base64 en paralelo
@@ -706,7 +706,7 @@
       };
 
       const controller = new AbortController();
-      const timeout    = setTimeout(() => controller.abort(), 30000);
+      const timeout    = setTimeout(() => controller.abort(), 120000);
 
       const res = await fetch(WEBHOOK_URL, {
         method:  'POST',
