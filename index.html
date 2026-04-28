@@ -554,15 +554,10 @@
   // ── Parámetros de la URL ──
   const _params       = new URLSearchParams(window.location.search);
   const NRO_SINIESTRO = _params.get('caso') || '';
-  const SEGURADORA    = (_params.get('seg')  || '').toLowerCase(); // 'provincia' | 'sancor'
+  const SEGURADORA    = 'sancor';
 
   // ── Badge seguradora ──
-  const _badgeEl = document.getElementById('badgeSeguradora');
-  if (SEGURADORA === 'sancor') {
-    _badgeEl.textContent = 'Sancor / Provincia Seguros';
-  } else {
-    _badgeEl.textContent = 'Siniestro';
-  }
+  document.getElementById('badgeSeguradora').textContent = 'Sancor / Provincia Seguros';
 
   // ── Lista de archivos obligatorios ──
   const CAMPOS = [
