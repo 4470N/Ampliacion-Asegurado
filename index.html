@@ -523,30 +523,30 @@
     </div>
   </div>
 
-  <!-- SCREEN OK -->
-  <div id="screenOk">
-    <div class="screen-card">
-      <div class="screen-icon">&#9989;</div>
-      <h2>Documentación enviada con éxito</h2>
-      <p>Recibimos toda la documentación correctamente.<br>
-        El estudio Iezzi &amp; Varone revisará los archivos y se pondrá en contacto con usted a la brevedad.</p>
-    </div>
-  </div>
-
-  <!-- SCREEN ERROR -->
-  <div id="screenError">
-    <div class="screen-card">
-      <div class="screen-icon">&#10060;</div>
-      <h2>Error al enviar</h2>
-      <p>Hubo un problema al enviar la documentación. Por favor intente nuevamente.<br>
-        Si el problema persiste, comuníquese con el estudio al <strong>+54 9 11 5158-1815</strong>.</p>
-      <button class="btn-submit" style="margin-top:20px;max-width:260px;margin-left:auto;margin-right:auto;" onclick="document.getElementById('screenError').style.display='none'">
-        Reintentar
-      </button>
-    </div>
-  </div>
-
 </div><!-- /container -->
+
+<!-- SCREEN OK -->
+<div class="container" id="screenOk">
+  <div class="screen-card">
+    <div class="screen-icon">&#9989;</div>
+    <h2>Documentación enviada con éxito</h2>
+    <p>Recibimos toda la documentación correctamente.<br>
+      El estudio Iezzi &amp; Varone revisará los archivos y se pondrá en contacto con usted a la brevedad.</p>
+  </div>
+</div>
+
+<!-- SCREEN ERROR -->
+<div class="container" id="screenError">
+  <div class="screen-card">
+    <div class="screen-icon">&#10060;</div>
+    <h2>Error al enviar</h2>
+    <p>Hubo un problema al enviar la documentación. Por favor intente nuevamente.<br>
+      Si el problema persiste, comuníquese con el estudio al <strong>+54 9 11 5158-1815</strong>.</p>
+    <button class="btn-submit" style="margin-top:20px;max-width:260px;margin-left:auto;margin-right:auto;" onclick="document.getElementById('screenError').style.display='none'">
+      Reintentar
+    </button>
+  </div>
+</div>
 
 <script>
   const WEBHOOK_URL = "https://listing-mississippi-reliability-none.trycloudflare.com/webhook/siniestro-asegurado"; // ← actualizar con path definitivo
@@ -722,9 +722,6 @@
       document.getElementById('formContainer').style.display = 'none';
       document.getElementById('heroSection').style.display   = 'none';
       document.getElementById('screenOk').style.display      = 'block';
-      document.getElementById('screenOk').style.padding      = '24px 16px';
-      document.getElementById('screenOk').style.maxWidth     = '680px';
-      document.getElementById('screenOk').style.margin       = '0 auto';
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
     } catch (err) {
