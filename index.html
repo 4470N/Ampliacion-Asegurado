@@ -214,7 +214,8 @@
     }
 
     /* ── SCREENS ── */
-    #screenOk, #screenError { display: none; }
+    #screenOk, #screenError, #msgEnviando { display: none; }
+    #msgEnviando { background:#f0f8ff; border-left:4px solid #4db8d4; border-radius:8px; padding:14px 16px; color:#1a3a6b; font-size:14px; text-align:center; line-height:1.6; margin-top:16px; }
     .screen-card {
       background: white; border-radius: 16px; box-shadow: var(--shadow);
       padding: 40px 30px; text-align: center; margin-top: 24px;
@@ -562,6 +563,7 @@
       <button class="btn-submit" id="btnSubmit" onclick="enviarFormulario()">
         &#9989; Enviar documentación
       </button>
+      <div id="msgEnviando">⏳ Estamos enviando tu información. Esto puede tardar unos segundos.<br>Por favor, no cierres la pestaña hasta que veas el mensaje de confirmación.</div>
     </div>
   </div>
 
@@ -693,6 +695,7 @@
     const btn = document.getElementById('btnSubmit');
     btn.disabled    = true;
     btn.textContent = '⏳ Enviando documentación... (puede tardar unos segundos)';
+    document.getElementById('msgEnviando').style.display = 'block';
 
     try {
       // Convertir todos los archivos a base64 en paralelo
@@ -765,10 +768,12 @@
       // Ocultar formulario, mostrar confirmación
       document.getElementById('formContainer').style.display = 'none';
       document.getElementById('heroSection').style.display   = 'none';
+      document.getElementById('msgEnviando').style.display = 'none';
       document.getElementById('screenOk').style.display      = 'block';
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
     } catch (err) {
+      document.getElementById('msgEnviando').style.display = 'none';
       document.getElementById('screenError').style.display = 'block';
       btn.disabled    = false;
       btn.textContent = '✅ Enviar documentación';
