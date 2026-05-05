@@ -249,6 +249,8 @@
       .btn-submit { font-size: 14px; padding: 13px; min-height: 44px; }
       input[type=text], input[type=date], input[type=time], input[type=email],
       input[type=tel], input[type=number], select, textarea { font-size: 16px !important; }
+      .row-2 { grid-template-columns: 1fr; }
+      #modalBox { padding: 24px 16px; }
     }
 
     /* ── TERCEROS TRANSPORTADOS ── */
@@ -321,8 +323,15 @@
     body { padding-bottom: env(safe-area-inset-bottom, 0px); }
     select { background-color: #f8fafc; }
     @media (max-width: 480px) {
+      .screen-card { padding: 24px 14px; }
       .screen-card h2 { font-size: 17px; }
       .screen-card p  { font-size: 13px; }
+    }
+
+    /* ── Touch: deshabilitar hovers que quedan pegados en iOS/Android ── */
+    @media (hover: none) and (pointer: coarse) {
+      .file-drop:hover  { border-color: var(--border); background: white; }
+      .btn-submit:hover { transform: none; box-shadow: 0 2px 8px rgba(39,174,96,0.2); }
     }
   </style>
 </head>
