@@ -725,9 +725,12 @@
   }
 
   // ── Envío ──
+  let enviando = false;
   async function enviarFormulario() {
+    if (enviando) return;
     if (!validar()) return;
 
+    enviando = true;
     const btn = document.getElementById('btnSubmit');
     btn.disabled    = true;
     btn.textContent = '⏳ Enviando documentación... (puede tardar unos segundos)';
@@ -827,8 +830,6 @@
     } catch (err) {
       document.getElementById('modalProgress').style.display = 'none';
       document.getElementById('modalError').style.display = 'block';
-      btn.disabled    = false;
-      btn.textContent = '✅ Enviar documentación';
     }
   }
 
@@ -836,6 +837,12 @@
     document.getElementById('modalEnviando').classList.remove('activo');
     document.getElementById('modalError').style.display = 'none';
     document.getElementById('modalProgress').style.display = 'block';
+    enviando = false;
+    const btn = document.getElementById('btnSubmit');
+    if (btn) {
+      btn.disabled    = false;
+      btn.textContent = '✅ Enviar documentación';
+    }
   }
 
   // ── Toggle Si/No: Tercero Transportado ──
