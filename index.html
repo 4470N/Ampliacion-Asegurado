@@ -366,7 +366,7 @@
       <div class="progress-bar-wrap">
         <div class="progress-bar-fill" id="progressFill"></div>
       </div>
-      <div class="progress-label"><span id="progressText">0</span> de 11 archivos adjuntados</div>
+      <div class="progress-label"><span id="progressText">0</span> de <span id="progressTotal">12</span> archivos adjuntados</div>
     </div>
   </div>
 
@@ -623,7 +623,7 @@
   // ── Badge seguradora ──
   document.getElementById('badgeSeguradora').textContent = 'Sancor / Provincia Seguros';
 
-  // ── Lista de archivos obligatorios ──
+  // ── Lista de archivos obligatorios (10) ──
   const CAMPOS = [
     'dni_frente',
     'dni_dorso',
@@ -636,6 +636,15 @@
     'foto_auto_izquierdo',
     'foto_auto_derecho',
   ];
+
+  // ── Archivos opcionales (DNI conductor, en caso de no ser el titular) ──
+  const OPCIONALES = [
+    'dni_conductor_frente',
+    'dni_conductor_dorso',
+  ];
+
+  const TODOS_LOS_ARCHIVOS = CAMPOS.concat(OPCIONALES);
+  document.getElementById('progressTotal').textContent = TODOS_LOS_ARCHIVOS.length;
 
   // ── Actualizar estado visual al seleccionar un archivo ──
   function onFile(input, dropId) {
@@ -655,13 +664,13 @@
     actualizarProgreso();
   }
 
-  // ── Barra de progreso ──
+  // ── Barra de progreso (cuenta obligatorios + opcionales) ──
   function actualizarProgreso() {
-    const adjuntados = CAMPOS.filter(id => {
+    const adjuntados = TODOS_LOS_ARCHIVOS.filter(id => {
       const el = document.getElementById(id);
       return el && el.files && el.files[0];
     }).length;
-    const pct = Math.round((adjuntados / CAMPOS.length) * 100);
+    const pct = Math.round((adjuntados / TODOS_LOS_ARCHIVOS.length) * 100);
     document.getElementById('progressFill').style.width = pct + '%';
     document.getElementById('progressText').textContent = adjuntados;
   }
